@@ -5,6 +5,7 @@ OBJECTS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.o))
 DEPS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.d))
 EXE = program
 
+#Compiler setUp
 CXX = g++ 
 CXXFLAGS = -I. -Wall -std=c++11 	# -I. = path to include files '. mean here # -Wall Show all Possible warnins
 
@@ -12,8 +13,8 @@ CXXFLAGS = -I. -Wall -std=c++11 	# -I. = path to include files '. mean here # -W
 ifeq (${HOST}, windows)
 BUILD_DIR			= build/${HOST}
 BIN_DIR 			= bin/${HOST}
-CLEAN_CMD1 			= del "${BUILD_DIR}" -y
-CLEAN_CMD2 			= del "${BIN_DIR}" -y
+CLEAN_CMD1 			= powershell Remove-Item -Path "${BUILD_DIR}" -Recurse
+CLEAN_CMD2 			= powershell Remove-Item -Path "${BIN_DIR}" -Recurse
 MAKE_FOLDER_BUILD 	= powershell ./CreateFolder.ps1 "${BUILD_DIR}"  
 MAKE_FOLDER_BIN   	= powershell ./CreateFolder.ps1 "${BIN_DIR}"  
 endif
@@ -23,8 +24,8 @@ ifeq (${HOST}, linux)
 BUILD_DIR			= build/${HOST}
 BIN_DIR 			= bin/${HOST}
 CXXFLAGS 			+= -pthread
-CLEAN_CMD1 			= -rm -rf 
-CLEAN_CMD2			= -rm -rf build/
+CLEAN_CMD1 			= -rm -rf ${BUILD_DIR}  
+CLEAN_CMD2			= -rm -rf ${BIN_DIR} 
 MAKE_FOLDER			= mkdir -p
 MAKE_FOLDER_BUILD 	= mkdir -p ${BUILD_DIR}  
 MAKE_FOLDER_BIN   	= mkdir -p ${BIN_DIR}  
