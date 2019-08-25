@@ -37,17 +37,17 @@ int main()
 
     int i_value{42}; // 42
 
-    int i_undefined; // undefined
+    //int i_undefined; // undefined // some high number
 
     //int i_narrowing_conversion_error{4.2}; /* Not ok */ casting double to int
 
     int i_narrowing_conversion(4.2); /* Ok */
 
-    cout << "i = " << i << " + i_default =  " << i_default << " + i_undefined = " << i_undefined  << " +  i_narrowing_conversion = " << i_narrowing_conversion << endl;
+    cout << "i = " << i << " + i_default =  " << i_default << "+ i_value = " << i_value <<" +  i_narrowing_conversion = " << i_narrowing_conversion << endl;
 
 
     // C++11 INITIALISATION
-    int v[] {1,2,3,4}; // auto size
+    //int v[] {1,2,3,4}; // auto size
      
     // initializer_list<> - a new feature
     array<int, 5> a { 1,2,3,4,5};

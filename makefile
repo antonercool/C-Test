@@ -1,10 +1,55 @@
-#Constant
-CXX = g++ -std=c++11
-CXXFLAGS = -I.
-out =  c:/Projects/C-Test/build/
+#Constants
+HOST 		= windows
+SOURCES 	= main.cpp student.cpp data.cpp
+OBJECTS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.o))
+DEPS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.d))
+EXE = program
 
+CXX = g++ 
+CXXFLAGS = -I. -Wall -std=c++11 	# -I. = path to include files '. mean here # -Wall Show all Possible warnins
 
-%.o: %.cpp $(DEPS)
-	$(CXX) -c -o $@ $< $(CXXFLAGS)
-hellomake: student.o main.o data.o 
-	$(CXX)  -o program student.o data.o main.o 
+#For windows 
+ifeq (${HOST}, windows)
+BUILD_DIR			= build/${HOST}
+BIN_DIR 			= bin/${HOST}
+CLEAN_CMD1 			= del "${BUILD_DIR}" -y
+CLEAN_CMD2 			= del "${BIN_DIR}" -y
+MAKE_FOLDER_BUILD 	= powershell ./CreateFolder.ps1 "${BUILD_DIR}"  
+MAKE_FOLDER_BIN   	= powershell ./CreateFolder.ps1 "${BIN_DIR}"  
+endif
+
+#For linux
+ifeq (${HOST}, linux)
+BUILD_DIR			= build/${HOST}
+BIN_DIR 			= bin/${HOST}
+CXXFLAGS 			+= -pthread
+CLEAN_CMD1 			= -rm -rf 
+CLEAN_CMD2			= -rm -rf build/
+MAKE_FOLDER			= mkdir -p
+MAKE_FOLDER_BUILD 	= mkdir -p ${BUILD_DIR}  
+MAKE_FOLDER_BIN   	= mkdir -p ${BIN_DIR}  
+endif
+
+all: info $(BIN_DIR)/$(EXE)
+
+info:
+	@ echo "Compiling for '${HOST}'..."
+	
+${BIN_DIR}/${EXE}:  ${DEPS} ${OBJECTS} 
+	@ echo "Creating directory '${BIN_DIR}' if not exits"
+	${MAKE_FOLDER_BIN} 
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJECTS)
+
+${BUILD_DIR}/%.d: %.cpp
+	@ echo "Creating directory '${BUILD_DIR}' if not exits"
+	${MAKE_FOLDER_BUILD}
+	$(CXX) -MT$(@:.d=.o) -MM $(CXXFLAGS) $^ > $@
+
+${BUILD_DIR}/%.o: %.cpp
+	@ echo "Creating directory '${BUILD_DIR}' if not exits"
+	${MAKE_FOLDER_BUILD}
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
+
+clean:
+	${CLEAN_CMD1}
+	${CLEAN_CMD2}
