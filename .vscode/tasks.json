@@ -6,8 +6,7 @@
         {
             "label": "myBuildTask",
             "type": "shell",
-            "command": "g++ ",
-            "args": ["-g", "main.cpp", "-o", "program"],
+            "command": "make",
             "group": {
                 "kind": "build",
                 "isDefault": true
