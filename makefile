@@ -1,13 +1,15 @@
 #Constants
-HOST 		= windows
+# Verion 1.0.0
 SOURCES 	= main.cpp student.cpp data.cpp
 OBJECTS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.o))
 DEPS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.d))
 EXE = program
+HOST = windows
+
 
 #Compiler setUp
 CXX = g++ 
-CXXFLAGS = -I. -Wall -std=c++11 	# -I. = path to include files '. mean here # -Wall Show all Possible warnins
+CXXFLAGS = -I. -Wall -std=c++17 	# -I. = path to include files '. mean here # -Wall Show all Possible warnins
 
 #For windows 
 ifeq (${HOST}, windows)
