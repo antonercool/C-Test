@@ -1,11 +1,10 @@
 #Constants
 # Verion 1.0.0
 SOURCES 	= main.cpp student.cpp data.cpp
-OBJECTS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.o))
-DEPS=$(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.d))
-EXE = program
-HOST = windows
-
+OBJECTS		= $(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.o))
+DEPS		= $(addprefix $(BUILD_DIR)/, $(SOURCES:.cpp=.d))
+EXE 		= program
+HOST 		= linux
 
 #Compiler setUp
 CXX = g++ 
